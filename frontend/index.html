@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hundir la Flota</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Contenedor principal: dos columnas (info + juego) -->
+    <main class="main-layout">
+
+        <!-- Columna izquierda: información -->
+        <aside class="info-panel">
+            <h2>Flota Enemiga</h2>
+            <ul id="fleet-status">
+                <!-- Los <li> se generan con JavaScript.
+                     Datos de ejemplo mientras maquetas (bórralos cuando conectes app.js): -->
+                <li>Portaaviones (5 casillas)</li>
+                <li>Acorazado (4 casillas)</li>
+                <li class="sunk">Destructor (3 casillas)</li>
+                <li>Submarino (3 casillas)</li>
+                <li>Patrullero (2 casillas)</li>
+            </ul>
+
+            <div class="stats">
+                <p>Disparos: <span id="shot-counter">0</span></p>
+            </div>
+
+            <div class="leaderboard">
+                <h2>Mejores Puntuaciones</h2>
+                <ol id="score-list">
+                    <!-- Los <li> se generan con JavaScript -->
+                </ol>
+            </div>
+        </aside>
+
+        <!-- Columna derecha: juego -->
+        <section class="game-container">
+            <h1>Hundir la Flota</h1>
+
+            <div id="message-area">Cargando...</div>
+
+            <div id="game-board">
+                <!-- Las celdas se generan con JavaScript -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal de fin de juego (oculto al inicio) -->
+    <div id="game-over-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2 id="modal-title">¡Victoria!</h2>
+            <p id="modal-text">Has hundido toda la flota en X disparos.</p>
+
+            <input type="text" id="player-name" placeholder="Introduce tu nombre" maxlength="20">
+            <button id="save-score-btn">Guardar Puntuación</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

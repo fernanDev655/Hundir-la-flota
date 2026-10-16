@@ -1,0 +1,206 @@
+/* ============== BASE ============== */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    background: #eef6fd;
+    color: #1b2a38;
+}
+
+h1, h2 {
+    color: #0b5394;
+    margin-top: 0;
+}
+
+/* ============== LAYOUT PRINCIPAL ============== */
+.main-layout {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 24px;
+    flex-wrap: wrap;
+}
+
+/* ============== PANEL IZQUIERDO ============== */
+.info-panel {
+    background: #f5f7f9;
+    padding: 20px;
+    border-radius: 12px;
+    width: 270px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+#fleet-status {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px;
+}
+
+#fleet-status li {
+    background: #e4e8ec;
+    padding: 7px 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+/* Barco hundido en la lista */
+#fleet-status li.sunk {
+    background: #ffc4c9;
+    text-decoration: line-through;
+    color: #7a1f27;
+}
+
+.stats {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.stats p {
+    margin: 0;
+}
+
+.leaderboard ol {
+    padding-left: 22px;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.leaderboard li {
+    margin-bottom: 4px;
+}
+
+/* ============== ZONA DE JUEGO ============== */
+.game-container {
+    text-align: center;
+}
+
+.game-container h1 {
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+#message-area {
+    min-height: 1.5em;
+    margin-bottom: 14px;
+    font-weight: bold;
+}
+
+/* El JS ajusta grid-template-columns según boardSize */
+#game-board {
+    display: grid;
+    grid-template-columns: repeat(10, 40px);
+    width: fit-content;
+    margin: 0 auto;
+    border: 3px solid #0b5394;
+    background: #0b5394;
+    gap: 1px;
+}
+
+/* ============== CELDAS ============== */
+.cell {
+    width: 40px;
+    height: 40px;
+    background: #d9f4fa;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.cell:hover {
+    background: #b3e3ee;
+}
+
+/* Estados: agua / tocado / hundido */
+.cell.agua {
+    background: #42a5f5;
+    cursor: default;
+}
+
+.cell.tocado {
+    background: #ff7f5c;
+    cursor: default;
+}
+
+.cell.hundido {
+    background: #b01c1c;
+    cursor: default;
+}
+
+/* Las celdas ya disparadas no reaccionan al hover */
+.cell.agua:hover,
+.cell.tocado:hover,
+.cell.hundido:hover {
+    filter: none;
+}
+
+.cell.agua:hover    { background: #42a5f5; }
+.cell.tocado:hover  { background: #ff7f5c; }
+.cell.hundido:hover { background: #b01c1c; }
+
+/* ============== MODAL ============== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    /* display lo controla JS: 'none' / 'flex' */
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    width: min(90%, 380px);
+    text-align: left;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 8px 10px;
+    margin: 6px 0 12px;
+    border: 1px solid #9bb;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.modal-content button {
+    padding: 9px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #0b5394;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.modal-content button:hover {
+    background: #08407a;
+}
+
+/* ============== RESPONSIVE ============== */
+@media (max-width: 700px) {
+    .main-layout {
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
+    .info-panel {
+        width: 100%;
+        max-width: 440px;
+    }
+
+    #game-board {
+        grid-template-columns: repeat(10, 32px) !important;
+    }
+
+    .cell {
+        width: 32px;
+        height: 32px;
+    }
+}

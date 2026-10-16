@@ -1,0 +1,62 @@
+{
+  "boardSize": 10,
+  "fleet": [
+    {
+      "name": "Portaaviones",
+      "size": 5,
+      "positions": [
+        { "row": 1, "col": 3 },
+        { "row": 2, "col": 3 },
+        { "row": 3, "col": 3 },
+        { "row": 4, "col": 3 },
+        { "row": 5, "col": 3 }
+      ],
+      "hits": 0,
+      "isSunk": false
+    },
+    {
+      "name": "Acorazado",
+      "size": 4,
+      "positions": [
+        { "row": 0, "col": 4 },
+        { "row": 1, "col": 4 },
+        { "row": 2, "col": 4 },
+        { "row": 3, "col": 4 }
+      ],
+      "hits": 0,
+      "isSunk": false
+    },
+    {
+      "name": "Destructor",
+      "size": 3,
+      "positions": [
+        { "row": 7, "col": 6 },
+        { "row": 7, "col": 7 },
+        { "row": 7, "col": 8 }
+      ],
+      "hits": 0,
+      "isSunk": false
+    },
+    {
+      "name": "Submarino",
+      "size": 3,
+      "positions": [
+        { "row": 9, "col": 7 },
+        { "row": 9, "col": 8 },
+        { "row": 9, "col": 9 }
+      ],
+      "hits": 0,
+      "isSunk": false
+    },
+    {
+      "name": "Patrullero",
+      "size": 2,
+      "positions": [
+        { "row": 4, "col": 6 },
+        { "row": 4, "col": 7 }
+      ],
+      "hits": 0,
+      "isSunk": false
+    }
+  ]
+}
