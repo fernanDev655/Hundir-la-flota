@@ -3,60 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hundir la Flota</title>
+    <meta name="theme-color" content="#020703">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23020603'/%3E%3Cpath d='M8 39h48l-7 13H17zM22 38V25h18v13M31 25V14h11' fill='none' stroke='%2354ff3f' stroke-width='4'/%3E%3C/svg%3E">
+    <title>Hundir la Flota — Terminal Naval</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="crt" aria-hidden="true"></div>
 
-    <!-- Contenedor principal: dos columnas (info + juego) -->
-    <main class="main-layout">
+    <main id="app">
+        <!-- MENÚ PRINCIPAL -->
+        <section id="main-menu" class="screen menu-screen" aria-labelledby="menu-title">
+            <div class="stars" aria-hidden="true"></div>
+            <div class="menu-content">
+                <p class="eyebrow">// TERMINAL NAVAL v1.0 //</p>
 
-        <!-- Columna izquierda: información -->
-        <aside class="info-panel">
-            <h2>Flota Enemiga</h2>
-            <ul id="fleet-status">
-                <!-- Los <li> se generan con JavaScript.
-                     Datos de ejemplo mientras maquetas (bórralos cuando conectes app.js): -->
-                <li>Portaaviones (5 casillas)</li>
-                <li>Acorazado (4 casillas)</li>
-                <li class="sunk">Destructor (3 casillas)</li>
-                <li>Submarino (3 casillas)</li>
-                <li>Patrullero (2 casillas)</li>
-            </ul>
+                <div class="ship-scene" aria-hidden="true">
+                    <svg class="pixel-ship" viewBox="0 0 320 105" role="img">
+                        <path d="M22 64H298V86H282V95H43V86H22Z" fill="currentColor" opacity=".18"/>
+                        <path d="M22 64H298M22 64V86H43V95H282V86H298V64M67 64V48H96V64M119 64V35H160V48H177V64M136 35V17M139 17H158M192 64V47H219V64M237 64V53H253V64" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="square" stroke-linejoin="miter"/>
+                        <path d="M141 5V22H169V13H151V5Z" fill="currentColor"/>
+                    </svg>
+                    <div class="waves"><i></i><i></i><i></i><i></i></div>
+                </div>
 
-            <div class="stats">
-                <p>Disparos: <span id="shot-counter">0</span></p>
+                <h1 id="menu-title" class="game-logo">HUNDIR<br>LA FLOTA</h1>
+                <p class="menu-subtitle">Simulador de combate naval por coordenadas</p>
+
+                <div class="best-score" id="menu-best-score">
+                    <span>MEJOR PUNTUACIÓN</span>
+                    <strong id="menu-best-value">— SIN REGISTROS —</strong>
+                </div>
+
+                <nav class="menu-actions" aria-label="Menú principal">
+                    <button id="start-btn" class="terminal-btn primary"><span>▶</span> INICIAR MISIÓN</button>
+                    <button id="instructions-btn" class="terminal-btn secondary" aria-expanded="false" aria-controls="instructions-panel">? INSTRUCCIONES</button>
+                    <button id="sound-btn" class="icon-btn" aria-pressed="true" title="Activar o desactivar sonido">SONIDO: ON</button>
+                </nav>
+
+                <div id="instructions-panel" class="instructions" hidden>
+                    <p><b>01</b> Selecciona una coordenada del radar enemigo.</p>
+                    <p><b>02</b> Localiza y hunde los cinco barcos con el menor número de disparos.</p>
+                    <p><b>03</b> Usa el ratón, toca una casilla o navega con Tab y pulsa Enter.</p>
+                    <p><b>ESC</b> Pausa la misión en cualquier momento.</p>
+                </div>
+
+                <p class="terminal-prompt"><span>&gt;</span> pulsa INICIAR MISIÓN para comenzar<span class="cursor">_</span></p>
             </div>
-
-            <div class="leaderboard">
-                <h2>Mejores Puntuaciones</h2>
-                <ol id="score-list">
-                    <!-- Los <li> se generan con JavaScript -->
-                </ol>
-            </div>
-        </aside>
-
-        <!-- Columna derecha: juego -->
-        <section class="game-container">
-            <h1>Hundir la Flota</h1>
-
-            <div id="message-area">Cargando...</div>
-
-            <div id="game-board">
-                <!-- Las celdas se generan con JavaScript -->
-            </div>
+            <footer class="menu-footer">SISTEMA EN LÍNEA <span>●</span> &nbsp;|&nbsp; LAT 36.72 N &nbsp;|&nbsp; LON 04.42 W</footer>
         </section>
 
+        <!-- PARTIDA -->
+        <section id="game-screen" class="screen game-screen" aria-labelledby="game-title" hidden>
+            <header class="game-header">
+                <div>
+                    <p class="eyebrow">// OPERACIÓN: FLOTA ENEMIGA //</p>
+                    <h1 id="game-title">HUNDIR LA FLOTA</h1>
+                </div>
+                <div class="header-actions">
+                    <button id="pause-btn" class="small-btn">Ⅱ PAUSA</button>
+                    <button id="restart-btn" class="small-btn">↻ REINICIAR</button>
+                    <button id="menu-btn" class="small-btn">⌂ MENÚ</button>
+                </div>
+            </header>
+
+            <div class="main-layout">
+                <aside class="info-panel terminal-panel">
+                    <section>
+                        <h2><span>01.</span> FLOTA ENEMIGA</h2>
+                        <ul id="fleet-status" aria-live="polite"></ul>
+                    </section>
+
+                    <div class="stats">
+                        <div><span>DISPAROS</span><strong id="shot-counter">000</strong></div>
+                        <div><span>HUNDIDOS</span><strong><span id="sunk-counter">0</span>/5</strong></div>
+                        <div><span>PRECISIÓN</span><strong id="accuracy">—</strong></div>
+                    </div>
+
+                    <section class="leaderboard">
+                        <h2><span>02.</span> MEJORES PUNTUACIONES</h2>
+                        <ol id="score-list"></ol>
+                        <p id="scores-empty" class="empty-state">Sin registros todavía.</p>
+                    </section>
+                </aside>
+
+                <section class="game-container terminal-panel">
+                    <div class="radar-heading">
+                        <span>RADAR DE OBJETIVOS</span>
+                        <span class="online"><i></i> ACTIVO</span>
+                    </div>
+                    <div id="message-area" role="status" aria-live="polite">Estableciendo enlace con el radar…</div>
+                    <div class="board-wrap">
+                        <div id="game-board" role="grid" aria-label="Tablero de combate de 10 por 10"></div>
+                    </div>
+                    <div class="legend" aria-label="Leyenda">
+                        <span><i class="legend-water"></i> AGUA</span>
+                        <span><i class="legend-hit"></i> TOCADO</span>
+                        <span><i class="legend-sunk"></i> HUNDIDO</span>
+                    </div>
+                </section>
+            </div>
+        </section>
     </main>
 
-    <!-- Modal de fin de juego (oculto al inicio) -->
-    <div id="game-over-modal" class="modal-overlay" style="display: none;">
-        <div class="modal-content">
-            <h2 id="modal-title">¡Victoria!</h2>
-            <p id="modal-text">Has hundido toda la flota en X disparos.</p>
+    <!-- PAUSA -->
+    <div id="pause-modal" class="modal-overlay" hidden>
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="pause-title">
+            <p class="eyebrow">// TRANSMISIÓN INTERRUMPIDA //</p>
+            <h2 id="pause-title">MISIÓN EN PAUSA</h2>
+            <p>El radar permanece bloqueado hasta que reanudes la operación.</p>
+            <button id="resume-btn" class="terminal-btn primary">▶ REANUDAR</button>
+            <button id="pause-menu-btn" class="terminal-btn secondary">⌂ VOLVER AL MENÚ</button>
+        </div>
+    </div>
 
-            <input type="text" id="player-name" placeholder="Introduce tu nombre" maxlength="20">
-            <button id="save-score-btn">Guardar Puntuación</button>
+    <!-- FIN DE PARTIDA -->
+    <div id="game-over-modal" class="modal-overlay" hidden>
+        <div class="modal-content victory-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <p class="eyebrow">// OPERACIÓN COMPLETADA //</p>
+            <div class="victory-icon" aria-hidden="true">★</div>
+            <h2 id="modal-title">¡FLOTA DESTRUIDA!</h2>
+            <p id="modal-text"></p>
+            <div id="save-score-form">
+                <label for="player-name">IDENTIFICACIÓN DEL OFICIAL</label>
+                <input type="text" id="player-name" placeholder="Tu nombre" maxlength="20" autocomplete="nickname">
+                <p id="save-error" class="form-error" role="alert"></p>
+                <button id="save-score-btn" class="terminal-btn primary">GUARDAR PUNTUACIÓN</button>
+            </div>
+            <div id="post-victory-actions" hidden>
+                <button id="play-again-btn" class="terminal-btn primary">↻ NUEVA MISIÓN</button>
+                <button id="victory-menu-btn" class="terminal-btn secondary">⌂ MENÚ PRINCIPAL</button>
+            </div>
         </div>
     </div>
 
